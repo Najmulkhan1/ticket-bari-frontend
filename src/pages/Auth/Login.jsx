@@ -13,7 +13,7 @@ const Login = () => {
   const { googleLogin, sinInUser } = useAuth();
   const navigate = useNavigate()
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit } = useForm();
   
   const [showPassword, setShowPassword] = useState(false);
 
