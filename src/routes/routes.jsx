@@ -8,6 +8,11 @@ import Contact from "../pages/Contact/Contact";
 import DashboardLayout from "../layouts/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
 import UserProfile from "../pages/Dashboard/UserProfile";
+import DashboardHome from "../pages/Dashboard/DashboardHome";
+import AddTicket from "../pages/Dashboard/VendorDashboard/AddTicket";
+import MyAddedTickets from "../pages/Dashboard/VendorDashboard/MyAddedTickets";
+import RequestedBookings from "../pages/Dashboard/VendorDashboard/RequestedBookings";
+import RevenueOverview from "../pages/Dashboard/VendorDashboard/RevenueOverview";
 
 export const router = createBrowserRouter([
   {
@@ -44,10 +49,36 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-        {
-            path: 'user-profile',
-            Component: UserProfile
-        }
-    ]
+      {
+        index: true,
+        Component: DashboardHome,
+      },
+      {
+        path: "user-profile",
+        Component: UserProfile,
+      },
+
+      // user Dashboard
+      {},
+
+      // vendor Dashboard **only see the vendor it not working
+      // it also private to se the only vendor
+      {
+        path: "add-ticket",
+        element: <AddTicket></AddTicket>,
+      },
+      {
+        path: "my-added-tickets",
+        element: <MyAddedTickets></MyAddedTickets>
+      },
+      {
+        path: 'requested-bookings',
+        element: <RequestedBookings></RequestedBookings>
+      },
+      {
+        path: 'revenue-overview',
+        element: <RevenueOverview></RevenueOverview>
+      }
+    ],
   },
 ]);
