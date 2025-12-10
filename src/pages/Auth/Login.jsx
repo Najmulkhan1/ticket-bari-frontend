@@ -4,18 +4,44 @@ import {
   LuArrowRight, LuEye, LuEyeOff, 
   LuQrCode 
 } from "react-icons/lu";
+import { useForm } from "react-hook-form";
+import useAuth from '../../hooks/useAuth';
+import { useNavigate } from 'react-router';
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
+
+  const { googleLogin, sinInUser } = useAuth();
+  const navigate = useNavigate()
+
+  const { register, handleSubmit, formState: { errors } } = useForm();
   
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onSubmit = (data) => {
+    sinInUser(data.email, data.password)
+    .then(result => {
+      const user = result.user;
+      console.log(user);
+      navigate('/')
+    })
+    .catch(error => {
+      console.error(error);
+    })
   };
+
+  const handleGoogleLogin = () => {
+    googleLogin()
+    .then(result => {
+      const user = result.user;
+      console.log(user);
+      navigate('/')
+    })
+    .catch(error => {
+      console.error(error);
+    })
+  }
+
+
 
   return (
     <div className="relative  min-h-screen bg-[url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074&auto=format&fit=crop')] bg-cover bg-center flex items-center justify-center p-4">
@@ -88,7 +114,7 @@ const Login = () => {
               <p className="text-sm text-base-content/60 mt-2">Access your bookings and profile</p>
             </div>
 
-            <form className="space-y-5">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               
               {/* Email */}
               <div className="form-control">
@@ -102,7 +128,7 @@ const Login = () => {
                     name="email"
                     className="grow" 
                     placeholder="john@example.com" 
-                    onChange={handleChange}
+                    {...register("email", { required: "Email is required" })}
                   />
                 </label>
               </div>
@@ -119,7 +145,7 @@ const Login = () => {
                     name="password"
                     className="grow" 
                     placeholder="••••••••" 
-                    onChange={handleChange}
+                    {...register("password", { required: "Password is required" })}
                   />
                   <button 
                     type="button" 
@@ -149,14 +175,12 @@ const Login = () => {
 
             <div className="divider text-xs text-base-content/40 my-6">OR LOGIN WITH</div>
 
-            <div className="grid grid-cols-2 gap-3">
-                <button className="btn btn-outline hover:bg-base-200 text-base-content/80">
+            <div className="w-full flex items-center justify-center">
+                <button onClick={handleGoogleLogin} className="btn btn-outline w-full hover:bg-base-200 text-base-content/80">
                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-5 h-5 mr-1" alt="Google" />
                    Google
                 </button>
-                <button className="btn btn-outline hover:bg-base-200 text-base-content/80">
-                   Github
-                </button>
+               
             </div>
 
             <p className="text-center mt-8 text-sm text-base-content/70">
