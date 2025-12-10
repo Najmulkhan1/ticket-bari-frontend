@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router';
 import { LuPlane, LuUser, LuMail, LuLock, LuArrowRight, LuCamera, LuUpload, LuEye, LuEyeOff } from "react-icons/lu";
 import useAuth from '../../hooks/useAuth';
 import axios from 'axios';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const Register = () => {
   const [imagePreview, setImagePreview] = useState(null);
@@ -14,6 +15,8 @@ const Register = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { registerUser, updateUserProfile,googleLogin } = useAuth()
   const navigate = useNavigate()
+
+  const axiosSecure = useAxiosSecure()  
 
   // react-hook-form setup
   const {
@@ -45,6 +48,22 @@ const Register = () => {
           .then((res) => {
             console.log('after image upload', res.data.data.url);
             const photoUrl = res.data.data.url
+
+            // create user in the database
+            const userInfo = {
+              email: data.email,
+              displayName: data.name,
+              photoUrl: photoUrl
+            }
+
+            axiosSecure.post('/users', userInfo)
+            .then((res) => {
+              console.log(res.data);
+              
+              if(res.data.insertedId){
+                console.log("User created in the database");
+              }
+            })
 
 
             // update user profile
