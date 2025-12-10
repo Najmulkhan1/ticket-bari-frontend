@@ -138,6 +138,9 @@ const Navbar = () => {
                                         Profile
                                         <span className="badge badge-sm badge-primary">New</span>
                                     </Link>
+                                    <Link to="/dashboard" className="justify-between">
+                                        Dashboard
+                                    </Link>
                                 </li>
                                 <li>
                                     <button onClick={handleLogout} className="text-error font-medium hover:bg-error/10">
