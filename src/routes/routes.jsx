@@ -15,6 +15,7 @@ import RequestedBookings from "../pages/Dashboard/VendorDashboard/RequestedBooki
 import RevenueOverview from "../pages/Dashboard/VendorDashboard/RevenueOverview";
 import AllTickets from "../pages/AllTickets/AllTrickts";
 import TicketsDetails from "../pages/TicketsDetails/TicketsDetails";
+import MyBookedTickets from "../pages/Dashboard/UserDashboard/MyBookedTickets";
 
 export const router = createBrowserRouter([
   {
@@ -69,7 +70,10 @@ export const router = createBrowserRouter([
       },
 
       // user Dashboard
-      {},
+      {
+        path: "my-bookings",
+        Component: MyBookedTickets,
+      },
 
       // vendor Dashboard **only see the vendor it not working
       // it also private to se the only vendor

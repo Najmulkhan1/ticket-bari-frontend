@@ -1,47 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import { 
-    LuMapPin, LuCalendar, LuClock, LuUsers, 
-    LuCheck, LuShieldCheck, LuBus, LuPlane, 
+import {
+    LuMapPin, LuCalendar, LuClock, LuUsers,
+    LuCheck, LuShieldCheck, LuBus, LuPlane,
     LuBadgeAlert // Replaced LuAlertCircle with this safe alternative
 } from "react-icons/lu";
-// import useAxiosSecure from '../../../hooks/useAxiosSecure'; 
 import Swal from 'sweetalert2';
+import { useQuery } from '@tanstack/react-query';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import useAuth from '../../hooks/useAuth';
 
 const TicketDetails = () => {
-    const { id } = useParams(); 
+    const { id } = useParams();
     const navigate = useNavigate();
-    // const axiosSecure = useAxiosSecure();
-    
+    const axiosSecure = useAxiosSecure()
+    const {user} = useAuth()
+
     // --- STATE ---
-    const [ticket, setTicket] = useState(null);
-    const [loading, setLoading] = useState(true);
+
     const [bookingQty, setBookingQty] = useState(1);
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
     const [isExpired, setIsExpired] = useState(false);
 
     // --- MOCK FETCH (Replace with your API) ---
-    useEffect(() => {
-        // MOCK DATA
-        setTimeout(() => {
-            setTicket({
-                _id: '1',
-                title: 'Dhaka to Cox\'s Bazar Luxury Night Coach',
-                from: 'Dhaka',
-                to: 'Cox\'s Bazar',
-                transportType: 'Bus',
-                price: 1500,
-                quantity: 15, // Available seats
-                departureDate: '2025-12-31T23:59:00', // Future date
-                perks: ['AC', 'Blanket', 'Water', 'WiFi', 'Charging Point', 'Reading Light'],
-                vendorName: 'GreenLine Travels',
-                vendorEmail: 'support@greenline.com',
-                image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069&auto=format&fit=crop',
-                description: "Experience the ultimate comfort with our luxury night coach service. Featuring reclining sleeper seats, onboard entertainment, and complimentary snacks."
-            });
-            setLoading(false);
-        }, 500);
-    }, [id]);
+    const { data: ticket, isLoading } = useQuery({
+        queryKey: ['ticket', id],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/tickets/${id}`);
+            return res.data;
+        }
+    })
 
     // --- COUNTDOWN LOGIC ---
     useEffect(() => {
@@ -80,25 +68,26 @@ const TicketDetails = () => {
         const bookingData = {
             ticketId: ticket._id,
             ticketTitle: ticket.title,
-            vendorEmail: ticket.vendorEmail,
+            email: user.email,
             quantity: parseInt(bookingQty),
             totalPrice: parseInt(bookingQty) * ticket.price,
-            status: 'pending', 
+            status: 'pending',
             bookingDate: new Date()
         };
 
         try {
             // await axiosSecure.post('/bookings', bookingData);
-            console.log("Booking Data Sent:", bookingData);
-            
+            const res = await axiosSecure.post('/bookings', bookingData);
+            console.log("Booking Data Sent:", res.data);
+
             document.getElementById('booking_modal').close();
-            
+
             Swal.fire({
                 title: "Booking Successful!",
                 text: "Your booking is pending approval.",
                 icon: "success"
             }).then(() => {
-                navigate('/dashboard/my-bookings'); 
+                navigate('/dashboard/my-bookings');
             });
 
         } catch (error) {
@@ -106,7 +95,8 @@ const TicketDetails = () => {
         }
     };
 
-    if (loading) return <div className="min-h-screen flex justify-center items-center"><span className="loading loading-dots loading-lg"></span></div>;
+    if (isLoading) return <div className="min-h-screen flex justify-center items-center"><span className="loading loading-dots loading-lg"></span></div>;
+    if (!ticket) return <div className="min-h-screen flex justify-center items-center text-error">Failed to load ticket details.</div>;
 
     // --- DISABLED STATE LOGIC ---
     const isSoldOut = ticket.quantity === 0;
@@ -114,24 +104,24 @@ const TicketDetails = () => {
 
     return (
         <div className="min-h-screen bg-base-100 font-sans pb-20">
-            
+
             {/* 1. HERO SECTION */}
             <div className="relative h-[60vh] w-full">
                 <img src={ticket.image} alt={ticket.title} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-                
+
                 <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 text-white">
                     <div className="max-w-7xl mx-auto">
                         <div className="badge badge-primary font-bold mb-4 p-3">{ticket.transportType} Journey</div>
                         <h1 className="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">{ticket.title}</h1>
-                        
+
                         <div className="flex flex-wrap items-center gap-6 text-sm md:text-base opacity-90">
                             <div className="flex items-center gap-2">
-                                <LuMapPin className="text-primary" /> 
+                                <LuMapPin className="text-primary" />
                                 {ticket.from} <span className="opacity-50">➔</span> {ticket.to}
                             </div>
                             <div className="flex items-center gap-2">
-                                <LuUsers className="text-primary" /> 
+                                <LuUsers className="text-primary" />
                                 {ticket.quantity} Seats Available
                             </div>
                         </div>
@@ -141,10 +131,10 @@ const TicketDetails = () => {
 
             {/* 2. MAIN CONTENT GRID */}
             <div className="max-w-7xl mx-auto px-4 md:px-8 -mt-20 relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
-                
+
                 {/* LEFT COL: Details */}
                 <div className="lg:col-span-2 space-y-8">
-                    
+
                     {/* Countdown Timer Card */}
                     <div className="bg-base-100 rounded-3xl p-8 shadow-xl border border-base-200">
                         <div className="flex items-center justify-between mb-6">
@@ -153,12 +143,12 @@ const TicketDetails = () => {
                             </h3>
                             {isExpired && <span className="badge badge-error text-white">Departure Time Passed</span>}
                         </div>
-                        
+
                         <div className="grid grid-cols-4 gap-4 text-center">
                             {Object.entries(timeLeft).map(([unit, value]) => (
                                 <div key={unit} className={`bg-base-200 rounded-2xl p-4 flex flex-col items-center justify-center ${isExpired ? 'opacity-50 grayscale' : ''}`}>
                                     <span className="countdown font-mono text-4xl font-bold">
-                                        <span style={{"--value": value}}></span>
+                                        <span style={{ "--value": value }}></span>
                                     </span>
                                     <span className="text-xs uppercase font-bold opacity-50 mt-1">{unit}</span>
                                 </div>
@@ -170,7 +160,7 @@ const TicketDetails = () => {
                     <div className="bg-base-100 rounded-3xl p-8 shadow-xl border border-base-200">
                         <h3 className="text-2xl font-bold mb-4">Journey Details</h3>
                         <p className="opacity-70 leading-relaxed mb-6">{ticket.description}</p>
-                        
+
                         <div className="divider"></div>
 
                         <h4 className="font-bold mb-4 flex items-center gap-2">
@@ -210,20 +200,20 @@ const TicketDetails = () => {
                         </div>
 
                         {/* OPEN MODAL BUTTON */}
-                        <button 
+                        <button
                             className={`btn btn-primary w-full btn-lg rounded-2xl shadow-lg shadow-primary/30 transition-all 
                                 ${isButtonDisabled ? 'btn-disabled bg-base-300 border-none text-base-content/40 shadow-none' : 'hover:scale-105'}`}
                             onClick={() => document.getElementById('booking_modal').showModal()}
                             disabled={isButtonDisabled}
                         >
-                            {isExpired 
-                                ? "Departure Time Passed" 
-                                : isSoldOut 
-                                    ? "Sold Out" 
+                            {isExpired
+                                ? "Departure Time Passed"
+                                : isSoldOut
+                                    ? "Sold Out"
                                     : "Book Now"
                             }
                         </button>
-                        
+
                         {isButtonDisabled && (
                             <div className="alert alert-warning mt-4 py-2 text-xs flex justify-center">
                                 <LuBadgeAlert className="text-lg" /> Booking is currently unavailable
@@ -245,14 +235,14 @@ const TicketDetails = () => {
                                 <span className="label-text font-bold">Quantity (Max: {ticket.quantity})</span>
                             </label>
                             <div className="flex items-center gap-4">
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     className="btn btn-square btn-outline"
                                     onClick={() => setBookingQty(q => Math.max(1, q - 1))}
                                 >-</button>
-                                <input 
-                                    type="number" 
-                                    className="input input-bordered text-center font-bold text-xl w-full focus:input-primary" 
+                                <input
+                                    type="number"
+                                    className="input input-bordered text-center font-bold text-xl w-full focus:input-primary"
                                     value={bookingQty}
                                     min="1"
                                     max={ticket.quantity}
@@ -263,8 +253,8 @@ const TicketDetails = () => {
                                     }}
                                     required
                                 />
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     className="btn btn-square btn-outline"
                                     onClick={() => setBookingQty(q => Math.min(ticket.quantity, q + 1))}
                                 >+</button>
@@ -278,8 +268,8 @@ const TicketDetails = () => {
                         </div>
 
                         <div className="modal-action grid grid-cols-2 gap-4">
-                            <button 
-                                type="button" 
+                            <button
+                                type="button"
                                 className="btn btn-ghost hover:bg-base-200"
                                 onClick={() => document.getElementById('booking_modal').close()}
                             >

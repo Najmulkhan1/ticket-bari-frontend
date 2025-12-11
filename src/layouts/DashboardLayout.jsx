@@ -4,11 +4,12 @@ import logo2 from "../assets/logo2.png";
 import { NavLink, Outlet } from "react-router";
 import { FaRegCalendarCheck, FaTicketAlt } from "react-icons/fa";
 import { MdOutlineAirplaneTicket, MdShowChart } from "react-icons/md";
+import { FaTicketSimple } from "react-icons/fa6";
 
 const DashboardLayout = () => {
   return (
-    <div>
-      <div className="drawer lg:drawer-open">
+    <div className="">
+      <div className="max-w-7xl mx-auto drawer lg:drawer-open">
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           {/* Navbar */}
@@ -85,6 +86,19 @@ const DashboardLayout = () => {
                     <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                   </svg>
                   <span className="is-drawer-close:hidden">User Profile</span>
+                </NavLink>
+              </li>
+
+              {/* user */}
+              <li>
+                <NavLink
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="My Bookings"
+                  to={"/dashboard/my-bookings"}
+                >
+                  <FaTicketSimple />
+
+                  <span className="is-drawer-close:hidden">My Bookings</span>
                 </NavLink>
               </li>
 
