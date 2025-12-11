@@ -26,6 +26,7 @@ const Navbar = () => {
 
     const links = [
         { name: "Home", href: "/" },
+        { name: "All Tickets", href: "/all-tickets" },
         { name: "About", href: "/about" },
         { name: "Contact", href: "/contact" },
     ]

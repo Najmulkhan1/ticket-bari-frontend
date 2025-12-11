@@ -13,6 +13,8 @@ import AddTicket from "../pages/Dashboard/VendorDashboard/AddTicket";
 import MyAddedTickets from "../pages/Dashboard/VendorDashboard/MyAddedTickets";
 import RequestedBookings from "../pages/Dashboard/VendorDashboard/RequestedBookings";
 import RevenueOverview from "../pages/Dashboard/VendorDashboard/RevenueOverview";
+import AllTickets from "../pages/AllTickets/AllTrickts";
+import TicketsDetails from "../pages/TicketsDetails/TicketsDetails";
 
 export const router = createBrowserRouter([
   {
@@ -39,6 +41,14 @@ export const router = createBrowserRouter([
         path: "/contact",
         Component: Contact,
       },
+      {
+        path: "/all-tickets",
+        Component: AllTickets,
+      },
+      {
+        path: '/tickets-details/:id',
+        Component: TicketsDetails
+      }
     ],
   },
   {
