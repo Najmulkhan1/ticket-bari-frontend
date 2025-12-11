@@ -14,7 +14,7 @@ const TicketDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const axiosSecure = useAxiosSecure()
-    const {user} = useAuth()
+    const { user } = useAuth()
 
     // --- STATE ---
 
@@ -22,7 +22,7 @@ const TicketDetails = () => {
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
     const [isExpired, setIsExpired] = useState(false);
 
-    // --- MOCK FETCH (Replace with your API) ---
+
     const { data: ticket, isLoading } = useQuery({
         queryKey: ['ticket', id],
         queryFn: async () => {
@@ -68,7 +68,11 @@ const TicketDetails = () => {
         const bookingData = {
             ticketId: ticket._id,
             ticketTitle: ticket.title,
+            name: user.displayName,
+            image: user.photoURL,
             email: user.email,
+            orderNumber: Math.floor(Math.random() * 100000000),
+            vendorEmail: ticket.email,
             quantity: parseInt(bookingQty),
             totalPrice: parseInt(bookingQty) * ticket.price,
             status: 'pending',
