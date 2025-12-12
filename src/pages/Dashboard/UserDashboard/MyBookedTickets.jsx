@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     LuMapPin, LuClock, LuCreditCard,
     LuCheck, LuX, LuLoader, LuTicket, LuCalendar
@@ -45,17 +45,25 @@ const MyBookedTickets = () => {
             showCancelButton: true,
             confirmButtonText: "Simulate Payment Success"
         }).then(async (result) => {
+
+            
+            
+
             if (result.isConfirmed) {
-                // In real app, this happens via webhook or payment success callback
-                // Update local state to show 'paid' immediately for UI demo
-                const updatedBookings = bookings.map(b =>
-                    b._id === booking._id ? { ...b, status: 'paid' } : b
-                );
 
-                // Call Backend to update status and reduce quantity
-                // await axiosSecure.patch(`/booking/pay/${booking._id}`);
 
-                Swal.fire("Paid!", "Ticket booked successfully.", "success");
+                const paymentInfo = {
+                bookingId: booking._id,
+                amount,
+                paymentStatus: 'paid',
+                title: booking.ticket.title,
+                email: user.email
+            }
+
+            const res = await axiosSecure.post('/create-checkout-session', paymentInfo)
+            console.log(res.data);
+            window.location.href = res.data.url;
+            
             }
         });
     };

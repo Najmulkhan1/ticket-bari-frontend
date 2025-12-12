@@ -3,8 +3,9 @@ import logo from "../assets/logo.png";
 import logo2 from "../assets/logo2.png";
 import { NavLink, Outlet } from "react-router";
 import { FaRegCalendarCheck, FaTicketAlt } from "react-icons/fa";
-import { MdOutlineAirplaneTicket, MdShowChart } from "react-icons/md";
+import { MdOutlineAirplaneTicket, MdOutlineShowChart, MdShowChart } from "react-icons/md";
 import { FaTicketSimple } from "react-icons/fa6";
+import { LuReplace } from "react-icons/lu";
 
 const DashboardLayout = () => {
   return (
@@ -99,6 +100,17 @@ const DashboardLayout = () => {
                   <FaTicketSimple />
 
                   <span className="is-drawer-close:hidden">My Bookings</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Transaction History"
+                  to={"/dashboard/transaction-history"}
+                >
+                  <LuReplace />
+
+                  <span className="is-drawer-close:hidden">Transaction History</span>
                 </NavLink>
               </li>
 

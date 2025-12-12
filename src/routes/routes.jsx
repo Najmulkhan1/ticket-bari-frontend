@@ -16,6 +16,8 @@ import RevenueOverview from "../pages/Dashboard/VendorDashboard/RevenueOverview"
 import AllTickets from "../pages/AllTickets/AllTrickts";
 import TicketsDetails from "../pages/TicketsDetails/TicketsDetails";
 import MyBookedTickets from "../pages/Dashboard/UserDashboard/MyBookedTickets";
+import TransactionHistory from "../pages/Dashboard/UserDashboard/TransactionHistory";
+import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 
 export const router = createBrowserRouter([
   {
@@ -69,10 +71,19 @@ export const router = createBrowserRouter([
         Component: UserProfile,
       },
 
+      {
+        path: "payment-success",
+        Component: PaymentSuccess,
+      },
+
       // user Dashboard
       {
         path: "my-bookings",
         Component: MyBookedTickets,
+      },
+      {
+        path: "transaction-history",
+        Component: TransactionHistory,
       },
 
       // vendor Dashboard **only see the vendor it not working
