@@ -19,6 +19,7 @@ import MyBookedTickets from "../pages/Dashboard/UserDashboard/MyBookedTickets";
 import TransactionHistory from "../pages/Dashboard/UserDashboard/TransactionHistory";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import PaymentCancelled from "../pages/Payment/PaymentCancelled";
+import ManageTickets from "../pages/Dashboard/AdminDashboard/ManageTickets";
 
 export const router = createBrowserRouter([
   {
@@ -108,6 +109,12 @@ export const router = createBrowserRouter([
       {
         path: 'revenue-overview',
         element: <RevenueOverview></RevenueOverview>
+      },
+
+      // Admin Dashboard
+      {
+        path: 'manage-tickets',
+        element: <ManageTickets></ManageTickets>
       }
     ],
   },

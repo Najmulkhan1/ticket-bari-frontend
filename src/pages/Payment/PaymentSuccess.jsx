@@ -24,6 +24,9 @@ const PaymentSuccess = () => {
         if (sessionId) {
             axiosSecure.patch(`/payment-success?session_id=${sessionId}`)
                 .then(res => {
+
+                    console.log(res.data);
+                    
                     setPaymentInfo({
                         transactionId: res.data.transactionId,
                         trackingId: res.data.trakingId || `TRK-${Math.floor(Math.random() * 900000) + 100000}`,
@@ -170,6 +173,10 @@ const PaymentSuccess = () => {
                         <Link to="/" className="btn btn-ghost border border-base-300 flex-1 rounded-xl hover:bg-base-200">
                             <LuArrowLeft className="mr-2" /> Home
                         </Link>
+
+                        <button className="btn btn-square btn-ghost border border-base-300 rounded-xl hover:bg-base-200" title="Print Receipt">
+                            <LuPrinter />
+                        </button>
 
 
                     </div>

@@ -4,55 +4,71 @@ import {
     LuArrowUpRight, LuFileText 
 } from "react-icons/lu";
 import useAxiosSecure from '../../../hooks/useAxiosSecure'; // Your custom hook
+import { useQuery } from "@tanstack/react-query";
+import useAuth from '../../../hooks/useAuth';
+
 
 const TransactionHistory = () => {
     const axiosSecure = useAxiosSecure();
-    const [transactions, setTransactions] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { user } = useAuth();
+    const [loading, setLoading] = useState(false);
 
     // --- FETCH DATA ---
-    useEffect(() => {
-        // MOCK DATA (Replace with your API call)
-        const mockData = [
-            {
-                _id: 'tx_1',
-                transactionId: 'pi_3M9uO2LkdIwHu7ix0',
-                amount: 1500,
-                ticketTitle: "Dhaka to Cox's Bazar Luxury",
-                paymentDate: '2025-12-10T14:30:00'
-            },
-            {
-                _id: 'tx_2',
-                transactionId: 'pi_3M9uO2LkdIwHu7ix1',
-                amount: 5000,
-                ticketTitle: "Dhaka to Bangkok Flight",
-                paymentDate: '2025-12-08T09:15:00'
-            },
-            {
-                _id: 'tx_3',
-                transactionId: 'pi_3M9uO2LkdIwHu7ix2',
-                amount: 800,
-                ticketTitle: "Sylhet Express Train",
-                paymentDate: '2025-12-05T18:45:00'
-            },
-            {
-                _id: 'tx_4',
-                transactionId: 'pi_3M9uO2LkdIwHu7ix3',
-                amount: 2000,
-                ticketTitle: "Barisal Launch Cabin",
-                paymentDate: '2025-12-01T11:20:00'
-            }
-        ];
+    // useEffect(() => {
+    //     // MOCK DATA (Replace with your API call)
+    //     const mockData = [
+    //         {
+    //             _id: 'tx_1',
+    //             transactionId: 'pi_3M9uO2LkdIwHu7ix0',
+    //             amount: 1500,
+    //             ticketTitle: "Dhaka to Cox's Bazar Luxury",
+    //             paymentDate: '2025-12-10T14:30:00'
+    //         },
+    //         {
+    //             _id: 'tx_2',
+    //             transactionId: 'pi_3M9uO2LkdIwHu7ix1',
+    //             amount: 5000,
+    //             ticketTitle: "Dhaka to Bangkok Flight",
+    //             paymentDate: '2025-12-08T09:15:00'
+    //         },
+    //         {
+    //             _id: 'tx_3',
+    //             transactionId: 'pi_3M9uO2LkdIwHu7ix2',
+    //             amount: 800,
+    //             ticketTitle: "Sylhet Express Train",
+    //             paymentDate: '2025-12-05T18:45:00'
+    //         },
+    //         {
+    //             _id: 'tx_4',
+    //             transactionId: 'pi_3M9uO2LkdIwHu7ix3',
+    //             amount: 2000,
+    //             ticketTitle: "Barisal Launch Cabin",
+    //             paymentDate: '2025-12-01T11:20:00'
+    //         }
+    //     ];
 
-        // Simulate API call
-        setTimeout(() => {
-            setTransactions(mockData);
-            setLoading(false);
-        }, 600);
+    //     // Simulate API call
+    //     setTimeout(() => {
+    //         setTransactions(mockData);
+    //         setLoading(false);
+    //     }, 600);
 
-        // REAL API:
-        // axiosSecure.get('/payments/history').then(res => setTransactions(res.data));
-    }, []);
+    //     // REAL API:
+    //     // axiosSecure.get('/payments/history').then(res => setTransactions(res.data));
+    // }, []);
+
+     // --- FETCH DATA ---
+    const { data: transactions, isLoading } = useQuery({
+        queryKey: ['transactions', user?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(
+                `/payment-transaction?email=${user?.email}`
+            );
+            console.log(res.data);
+            
+            return res.data;
+        }
+    });
 
     if (loading) {
         return (
@@ -102,7 +118,7 @@ const TransactionHistory = () => {
 
                     {/* Table Body */}
                     <tbody>
-                        {transactions.length === 0 ? (
+                        {transactions?.length === 0 ? (
                             <tr>
                                 <td colSpan="5" className="text-center py-16 opacity-50">
                                     <div className="flex flex-col items-center gap-3">
@@ -115,7 +131,7 @@ const TransactionHistory = () => {
                                 </td>
                             </tr>
                         ) : (
-                            transactions.map((tx) => (
+                            transactions?.map((tx) => (
                                 <tr key={tx._id} className="hover:bg-base-200/50 transition-colors">
                                     
                                     {/* 1. Transaction ID */}
@@ -140,10 +156,10 @@ const TransactionHistory = () => {
                                         <div className="flex flex-col text-sm">
                                             <span className="font-medium flex items-center gap-1.5">
                                                 <LuCalendar size={12} className="opacity-60" /> 
-                                                {new Date(tx.paymentDate).toLocaleDateString()}
+                                                {new Date(tx.paidAt).toLocaleDateString()}
                                             </span>
                                             <span className="text-xs opacity-50 ml-4.5">
-                                                {new Date(tx.paymentDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                                                {new Date(tx.paidAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                                             </span>
                                         </div>
                                     </td>
@@ -170,7 +186,7 @@ const TransactionHistory = () => {
 
             {/* Footer / Pagination (Visual) */}
             <div className="flex justify-between items-center mt-6 text-xs opacity-60">
-                <span>Showing {transactions.length} recent transactions</span>
+                <span>Showing {transactions?.length} recent transactions</span>
                 <div className="join">
                     <button className="join-item btn btn-xs">«</button>
                     <button className="join-item btn btn-xs btn-active">1</button>

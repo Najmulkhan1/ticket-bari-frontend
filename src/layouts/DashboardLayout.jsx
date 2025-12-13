@@ -3,7 +3,7 @@ import logo from "../assets/logo.png";
 import logo2 from "../assets/logo2.png";
 import { NavLink, Outlet } from "react-router";
 import { FaRegCalendarCheck, FaTicketAlt } from "react-icons/fa";
-import { MdOutlineAirplaneTicket, MdOutlineShowChart, MdShowChart } from "react-icons/md";
+import { MdAirplaneTicket, MdOutlineAirplaneTicket, MdOutlineShowChart, MdShowChart } from "react-icons/md";
 import { FaTicketSimple } from "react-icons/fa6";
 import { LuReplace } from "react-icons/lu";
 
@@ -165,6 +165,23 @@ const DashboardLayout = () => {
 
                   <span className="is-drawer-close:hidden">
                    Revenue Overview
+                  </span>
+                </NavLink>
+              </li>
+
+
+              {/* admin */}
+
+              <li>
+                <NavLink
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Manage Tickets"
+                  to={"/dashboard/manage-tickets"}
+                >
+                  <MdAirplaneTicket />
+
+                  <span className="is-drawer-close:hidden">
+                   Manage Tickets
                   </span>
                 </NavLink>
               </li>
