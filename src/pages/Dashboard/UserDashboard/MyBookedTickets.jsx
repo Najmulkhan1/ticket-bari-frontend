@@ -57,12 +57,17 @@ const MyBookedTickets = () => {
                 amount,
                 paymentStatus: 'paid',
                 title: booking.ticket.title,
-                email: user.email
+                email: user.email,
+                quantity: booking.quantity,
+                ticketId: booking.ticket._id
             }
 
             const res = await axiosSecure.post('/create-checkout-session', paymentInfo)
             console.log(res.data);
             window.location.href = res.data.url;
+            if(modifiedCount){
+                Swal.fire("Success", "Payment successful.", "success");
+            }
             
             }
         });

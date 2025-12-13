@@ -1,2 +1,29 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+
+/* index.css বা App.css এ যোগ করুন */
+
+/* ব্যাকগ্রাউন্ড ইমেজের ধীর গতির জুম ইফেক্ট */
+@keyframes slowZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.15); }
+}
+.animate-slowZoom {
+  animation: slowZoom 20s infinite alternate ease-in-out;
+}
+
+/* লেখার জন্য নিচের দিক থেকে ভেসে ওঠার ইফেক্ট */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fadeInUp {
+  animation: fadeInUp 1s ease-out forwards;
+}
