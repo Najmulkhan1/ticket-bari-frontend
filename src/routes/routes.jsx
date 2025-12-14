@@ -22,6 +22,7 @@ import PaymentCancelled from "../pages/Payment/PaymentCancelled";
 import ManageTickets from "../pages/Dashboard/AdminDashboard/ManageTickets";
 import ManageUsers from "../pages/Dashboard/AdminDashboard/ManageUsers";
 import AdvertiseTickets from "../pages/Dashboard/AdminDashboard/AdvertiseTickets";
+import VendorRoute from "./VendorRoute";
 
 export const router = createBrowserRouter([
   {
@@ -98,19 +99,19 @@ export const router = createBrowserRouter([
       // it also private to se the only vendor
       {
         path: "add-ticket",
-        element: <AddTicket></AddTicket>,
+        element: <VendorRoute> <AddTicket></AddTicket></VendorRoute>,
       },
       {
         path: "my-added-tickets",
-        element: <MyAddedTickets></MyAddedTickets>
+        element: <VendorRoute> <MyAddedTickets></MyAddedTickets></VendorRoute>
       },
       {
         path: 'requested-bookings',
-        element: <RequestedBookings></RequestedBookings>
+        element: <VendorRoute> <RequestedBookings></RequestedBookings></VendorRoute>
       },
       {
         path: 'revenue-overview',
-        element: <RevenueOverview></RevenueOverview>
+        element: <VendorRoute> <RevenueOverview></RevenueOverview></VendorRoute>
       },
 
       // Admin Dashboard

@@ -6,8 +6,12 @@ import { FaRegCalendarCheck, FaTicketAlt } from "react-icons/fa";
 import { MdAirplaneTicket, MdOutlineAirplaneTicket, MdOutlineShowChart, MdOutlineSuperscript, MdShowChart } from "react-icons/md";
 import { FaTicketSimple } from "react-icons/fa6";
 import { LuMegaphone, LuReplace, LuUsers } from "react-icons/lu";
+import useRole from "../hooks/useRole";
 
 const DashboardLayout = () => {
+
+  const { role } = useRole()
+
   return (
     <div className="">
       <div className="max-w-7xl mx-auto drawer lg:drawer-open">
@@ -115,59 +119,64 @@ const DashboardLayout = () => {
               </li>
 
               {/* vendor */}
-              <li>
-                <NavLink
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Add Ticket"
-                  to={"/dashboard/add-ticket"}
-                >
-                  <FaTicketAlt />
 
-                  <span className="is-drawer-close:hidden">Add Ticket</span>
-                </NavLink>
-              </li>
+              {role === 'vendor' && <>
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Add Ticket"
+                    to={"/dashboard/add-ticket"}
+                  >
+                    <FaTicketAlt />
 
-              <li>
-                <NavLink
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="My Added Tickets"
-                  to={"/dashboard/my-added-tickets"}
-                >
-                  <MdOutlineAirplaneTicket />
+                    <span className="is-drawer-close:hidden">Add Ticket</span>
+                  </NavLink>
+                </li>
 
-                  <span className="is-drawer-close:hidden">
-                    My Added Tickets
-                  </span>
-                </NavLink>
-              </li>
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="My Added Tickets"
+                    to={"/dashboard/my-added-tickets"}
+                  >
+                    <MdOutlineAirplaneTicket />
 
-              <li>
-                <NavLink
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Requested Bookings"
-                  to={"/dashboard/requested-bookings"}
-                >
-                  <FaRegCalendarCheck />
+                    <span className="is-drawer-close:hidden">
+                      My Added Tickets
+                    </span>
+                  </NavLink>
+                </li>
 
-                  <span className="is-drawer-close:hidden">
-                    Requested Bookings
-                  </span>
-                </NavLink>
-              </li>
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Requested Bookings"
+                    to={"/dashboard/requested-bookings"}
+                  >
+                    <FaRegCalendarCheck />
 
-              <li>
-                <NavLink
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Revenue Overview"
-                  to={"/dashboard/revenue-overview"}
-                >
-                  <MdShowChart />
+                    <span className="is-drawer-close:hidden">
+                      Requested Bookings
+                    </span>
+                  </NavLink>
+                </li>
 
-                  <span className="is-drawer-close:hidden">
-                   Revenue Overview
-                  </span>
-                </NavLink>
-              </li>
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Revenue Overview"
+                    to={"/dashboard/revenue-overview"}
+                  >
+                    <MdShowChart />
+
+                    <span className="is-drawer-close:hidden">
+                      Revenue Overview
+                    </span>
+                  </NavLink>
+                </li>
+              </>}
+
+
 
 
               {/* admin */}
@@ -181,7 +190,7 @@ const DashboardLayout = () => {
                   <MdAirplaneTicket />
 
                   <span className="is-drawer-close:hidden">
-                   Manage Tickets
+                    Manage Tickets
                   </span>
                 </NavLink>
               </li>
@@ -195,7 +204,7 @@ const DashboardLayout = () => {
                   <LuUsers />
 
                   <span className="is-drawer-close:hidden">
-                   Manage Users
+                    Manage Users
                   </span>
                 </NavLink>
               </li>
@@ -209,7 +218,7 @@ const DashboardLayout = () => {
                   <LuMegaphone />
 
                   <span className="is-drawer-close:hidden">
-                   Advertise Tickets
+                    Advertise Tickets
                   </span>
                 </NavLink>
               </li>
