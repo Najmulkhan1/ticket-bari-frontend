@@ -7,6 +7,7 @@ import {
 import { useForm } from "react-hook-form";
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router';
+import SocialLogin from './SocialLogin';
 
 const Login = () => {
 
@@ -175,13 +176,7 @@ const Login = () => {
 
             <div className="divider text-xs text-base-content/40 my-6">OR LOGIN WITH</div>
 
-            <div className="w-full flex items-center justify-center">
-                <button onClick={handleGoogleLogin} className="btn btn-outline w-full hover:bg-base-200 text-base-content/80">
-                   <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-5 h-5 mr-1" alt="Google" />
-                   Google
-                </button>
-               
-            </div>
+            <SocialLogin />
 
             <p className="text-center mt-8 text-sm text-base-content/70">
               Don't have a ticket yet? <a href="/register" className="link link-primary font-bold no-underline hover:underline">Create Account</a>

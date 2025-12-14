@@ -6,6 +6,7 @@ import { LuPlane, LuUser, LuMail, LuLock, LuArrowRight, LuCamera, LuUpload, LuEy
 import useAuth from '../../hooks/useAuth';
 import axios from 'axios';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import SocialLogin from './SocialLogin';
 
 const Register = () => {
   const [imagePreview, setImagePreview] = useState(null);
@@ -53,7 +54,7 @@ const Register = () => {
             const userInfo = {
               email: data.email,
               displayName: data.name,
-              photoUrl: photoUrl
+              photoURL: photoUrl
             }
 
             axiosSecure.post('/users', userInfo)
@@ -313,10 +314,7 @@ const Register = () => {
 
             <div className="divider text-sm text-base-content/40 my-4">OR</div>
 
-            <button onClick={handleGoogleRegister} className="btn btn-outline w-full hover:bg-base-200 hover:border-base-300">
-              <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-5 h-5 mr-2" alt="Google" />
-              Google
-            </button>
+            <SocialLogin />
 
             <p className="text-center mt-6 text-sm">
               Already a member? <Link to="/login" className="link link-primary font-bold no-underline hover:underline">Log in</Link>

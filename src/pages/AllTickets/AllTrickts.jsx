@@ -16,7 +16,7 @@ const AllTickets = () => {
     const {data: tickets, isLoading} = useQuery({
         queryKey: ['tickets'],
         queryFn: async () => {
-            const res = await axiosSecure.get('/tickets')
+            const res = await axiosSecure.get('/all-tickets')
             return res.data
         }
     })

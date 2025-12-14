@@ -12,50 +12,9 @@ import { useQuery } from '@tanstack/react-query';
 const ManageUsers = () => {
     const axiosSecure = useAxiosSecure();
     
-    const [loading, setLoading] = useState(false);
+    const [loading] = useState(false);
     const [search, setSearch] = useState('');
 
-    // --- FETCH DATA ---
-
-
-    // useEffect(() => {
-    //     // MOCK DATA (Replace with: axiosSecure.get('/users'))
-    //     const mockData = [
-    //         {
-    //             _id: 'u1',
-    //             name: 'Md Nazmul Khan',
-    //             email: 'nazmul@example.com',
-    //             role: 'admin',
-    //             image: 'https://i.pravatar.cc/150?u=1'
-    //         },
-    //         {
-    //             _id: 'u2',
-    //             name: 'GreenLine Manager',
-    //             email: 'manager@greenline.com',
-    //             role: 'vendor', // Normal Vendor
-    //             image: 'https://i.pravatar.cc/150?u=2'
-    //         },
-    //         {
-    //             _id: 'u3',
-    //             name: 'Regular Traveler',
-    //             email: 'traveler@test.com',
-    //             role: 'user',
-    //             image: 'https://i.pravatar.cc/150?u=3'
-    //         },
-    //         {
-    //             _id: 'u4',
-    //             name: 'Bad Vendor',
-    //             email: 'scam@vendor.com',
-    //             role: 'fraud', // Vendor marked as fraud
-    //             image: 'https://i.pravatar.cc/150?u=4'
-    //         }
-    //     ];
-
-    //     setTimeout(() => {
-    //         setUsers(mockData);
-    //         setLoading(false);
-    //     }, 800);
-    // }, []);
 
     const {data: users = [], isLoading, refetch} = useQuery({
         queryKey: ['users', search],
@@ -107,16 +66,17 @@ const ManageUsers = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    // Optimistic Update
-                    const updatedUsers = users.map(u => 
-                        u._id === user._id ? { ...u, role: 'fraud' } : u
-                    );
-                    setUsers(updatedUsers);
+                  
 
                     // API Call
-                    // await axiosSecure.patch(`/users/fraud/${user._id}`);
-                    
-                    Swal.fire("Banned!", "Vendor marked as fraud.", "success");
+                    const res = await axiosSecure.patch(`/users/fraud/${user._id}`);
+
+                    console.log(res.data);
+                    if(res.data.updateUserResult.modifiedCount > 0){
+                        refetch();
+                        Swal.fire("Banned!", "Vendor marked as fraud.", "success");
+                    }
+
                 } catch (error) {
                     Swal.fire("Error", "Failed to update status.", "error");
                 }

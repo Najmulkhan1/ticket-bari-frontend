@@ -40,11 +40,7 @@ const RequestedBookings = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          // Update Local State Optimistically
-          // const targetBooking = bookings.find(b => b._id === id);
-          // const updatedBooking = { ...targetBooking, status: newStatus };
-
-          // API Call
+         
         const res = await axiosSecure.patch(`/bookings/${id}`, {status: newStatus});
           console.log(res);
 
@@ -124,7 +120,7 @@ const RequestedBookings = () => {
                           {booking.name}
                         </div>
                         <div className="text-xs opacity-60 flex items-center gap-1">
-                          <LuMail size={10} /> {booking.ticket.email}
+                          <LuMail size={10} /> {booking.email}
                         </div>
                       </div>
                     </div>
@@ -134,14 +130,14 @@ const RequestedBookings = () => {
                   <td>
                     <div className="flex items-center gap-3">
                       <div className="mask mask-squircle w-12 h-12">
-                        <img src={booking.ticketImage} alt="Ticket" />
+                        <img src={booking?.ticketImage} alt="Ticket" />
                       </div>
                       <div className="max-w-[150px]">
-                        <div className="font-bold text-xs truncate" title={booking.ticketTitle}>
-                          {booking.ticketTitle}
+                        <div className="font-bold text-xs truncate" title={booking?.ticketTitle}>
+                          {booking?.ticketTitle}
                         </div>
                         <div className="text-[10px] opacity-60 mt-1">
-                          Req: {new Date(booking.bookingDate).toLocaleString([], {
+                          Req: {new Date(booking?.bookingDate).toLocaleString([], {
                             year: 'numeric',
                             month: '2-digit',
                             day: '2-digit',
@@ -157,10 +153,10 @@ const RequestedBookings = () => {
                   <td>
                     <div className="flex flex-col">
                       <span className="text-sm font-bold">
-                        ${booking.ticket.price * booking.quantity}
+                        ${booking?.ticket?.price * booking?.quantity}
                       </span>
                       <span className="text-xs opacity-60">
-                        {booking.quantity} x ${booking.ticket.price}
+                        {booking?.quantity} x ${booking?.ticket?.price}
                       </span>
                     </div>
                   </td>
