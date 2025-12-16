@@ -9,7 +9,7 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { BiEdit } from 'react-icons/bi';
 import { PiChatCircle } from 'react-icons/pi';
 import { useQuery } from '@tanstack/react-query';
-import Swal from 'sweetalert2'; // For alerts (optional, but good UX)
+import Swal from 'sweetalert2'; 
 
 const UserProfile = () => {
   const { user, logOut } = useAuth();
@@ -41,12 +41,12 @@ const UserProfile = () => {
     };
 
     try {
-      // আপনার ব্যাকএন্ড রাউট অনুযায়ী এটি পরিবর্তন হতে পারে (PATCH বা PUT)
+      
       const res = await axiosSecure.patch(`/users-update/${user?.email}`, updatedInfo);
       
       if (res.data.modifiedCount > 0 || res.data.success) {
-        refetch(); // ডাটা সাথে সাথে রিফ্রেশ হবে
-        document.getElementById('edit_profile_modal').close(); // মোডাল বন্ধ হবে
+        refetch(); 
+        document.getElementById('edit_profile_modal').close(); 
         Swal.fire({
           icon: 'success',
           title: 'Updated!',
@@ -65,7 +65,6 @@ const UserProfile = () => {
     }
   };
 
-  // Helper: Dynamic Theme based on Role
   const getRoleTheme = (role) => {
     switch (role) {
       case 'admin':
@@ -84,7 +83,7 @@ const UserProfile = () => {
           badge: 'badge-secondary',
           icon: <LuStore />
         };
-      default: // User
+      default: 
         return {
           gradient: 'from-emerald-500 to-green-500',
           shadow: 'shadow-green-500/30',
@@ -108,17 +107,15 @@ const UserProfile = () => {
 
       <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-        {/* --- LEFT SIDEBAR: PROFILE CARD (4 cols) --- */}
         <div className="lg:col-span-4">
           <div className="card bg-base-100 shadow-xl border border-base-200 h-full">
             <div className="card-body items-center text-center p-8">
 
-              {/* Avatar with Ring */}
               <div className={`avatar mb-4`}>
                 <div className={`w-32 rounded-full ring ring-offset-base-100 ring-offset-2 ${theme.iconColor.replace('text-', 'ring-')}`}>
                   <img src={profileData.photoURL} alt="Profile" />
                 </div>
-                {/* ৩. Edit Button যা মোডাল ওপেন করবে */}
+                
                 <span 
                   onClick={() => document.getElementById('edit_profile_modal').showModal()}
                   className="absolute bottom-0 right-0 p-2 bg-base-100 rounded-full shadow-md border border-base-200 text-primary cursor-pointer hover:bg-base-200 transition-colors tooltip tooltip-right"
@@ -131,14 +128,12 @@ const UserProfile = () => {
               <h2 className="card-title text-2xl font-bold">{profileData.displayName}</h2>
               <p className="text-sm opacity-60 font-medium mb-4">{profileData.email}</p>
 
-              {/* Role Badge */}
               <div className={`badge ${theme.badge} gap-2 p-4 w-full justify-center uppercase font-bold tracking-wider shadow-lg ${theme.shadow}`}>
                 {theme.icon} {profileData.role}
               </div>
 
               <div className="divider my-6"></div>
 
-              {/* Stats or Quick Info */}
               <div className="w-full space-y-4 text-left">
                 <div className="flex items-center gap-3 p-3 bg-base-200/50 rounded-xl">
                   <div className={`p-2 rounded-lg bg-base-100 ${theme.iconColor}`}>
@@ -150,7 +145,6 @@ const UserProfile = () => {
                   </div>
                 </div>
                 
-                {/* ৪. নতুন ফিল্ড: City (যদি থাকে তবেই দেখাবে) */}
                 {profileData.city && (
                     <div className="flex items-center gap-3 p-3 bg-base-200/50 rounded-xl">
                     <div className={`p-2 rounded-lg bg-base-100 ${theme.iconColor}`}>
@@ -186,21 +180,16 @@ const UserProfile = () => {
           </div>
         </div>
 
-        {/* --- RIGHT CONTENT: DETAILS (8 cols) --- */}
         <div className="lg:col-span-8 space-y-6">
 
-          {/* Welcome Banner */}
           <div className={`rounded-3xl p-8 text-white bg-gradient-to-r ${theme.gradient} shadow-lg relative overflow-hidden`}>
             <div className="relative z-10">
               <h1 className="text-3xl font-bold mb-2">Welcome Back, {profileData.displayName?.split(' ')[0]}!</h1>
               <p className="opacity-90">Manage your profile information and account security settings here.</p>
             </div>
-            {/* Decorative Circles */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-black/10 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2"></div>
           </div>
-
-          {/* Personal Info Form/Display */}
           <div className="card bg-base-100 shadow-xl border border-base-200">
             <div className="card-body p-8">
               <div className="flex justify-between items-center mb-6">
@@ -215,7 +204,6 @@ const UserProfile = () => {
                 </button>
               </div>
 
-              {/* ৫. নতুন ফিল্ড: Bio (যদি থাকে তবেই দেখাবে) */}
               {profileData.bio && (
                  <div className="mb-6 p-4 bg-base-200/30 rounded-xl border border-base-200">
                     <h4 className="text-sm font-bold opacity-60 uppercase mb-2 flex items-center gap-2">
@@ -260,7 +248,6 @@ const UserProfile = () => {
             </div>
           </div>
 
-          {/* Account Status Card */}
           <div className="card bg-base-100 shadow-xl border border-base-200">
             <div className="card-body p-8 flex-row items-center justify-between">
               <div>
@@ -276,7 +263,6 @@ const UserProfile = () => {
         </div>
       </div>
 
-      {/* --- ৬. EDIT MODAL (DaisyUI) --- */}
       <dialog id="edit_profile_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="font-bold text-lg mb-4">Edit Profile Details</h3>
@@ -339,7 +325,7 @@ const UserProfile = () => {
 
             {/* Buttons */}
             <div className="modal-action">
-              {/* Close Button (Triggers form method="dialog") */}
+              
               <button 
                 type="button" 
                 className="btn" 

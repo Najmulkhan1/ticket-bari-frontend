@@ -120,7 +120,7 @@ const AdvertisementSection = () => {
                                 </div>
 
                                 <Link 
-                                    to={`/ticket-details/${ticket._id}`}
+                                    to={`/tickets-details/${ticket._id}`}
                                     className="btn btn-sm sm:btn-md btn-neutral w-auto sm:w-full rounded-xl font-bold gap-2 group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-all"
                                 >
                                     See Details <LuArrowRight />

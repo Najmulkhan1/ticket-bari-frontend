@@ -43,16 +43,7 @@ const LatestTickets = () => {
     })
 
 
-    const getTypeIcon = (type) => {
-        switch (type?.toLowerCase()) {
-            case 'bus': return <LuBus />;
-            case 'flight': return <LuPlane />;
-            case 'train': return <BiTrain />;
-            case 'launch': case 'ship': case 'cruise': return <LuShip />;
-            case 'jeep': return <LuLayoutGrid />;
-            default: return <LuTicket />;
-        }
-    };
+    
 
     const timeAgo = (createdAt) => {
         const now = new Date();
@@ -119,7 +110,7 @@ const LatestTickets = () => {
 
                                 {/* Transport Type Icon */}
                                 <div className="absolute bottom-3 right-3 bg-white/20 backdrop-blur-md p-2 rounded-lg text-white">
-                                    {getTypeIcon(ticket?.transportType)}
+                                    {ticket?.transportType}
                                 </div>
                             </figure>
 
@@ -163,11 +154,11 @@ const LatestTickets = () => {
                                     </div>
 
                                     <Link
-                                        to={`/ticket-details/${ticket._id}`}
-                                        className="btn btn-sm btn-circle btn-neutral group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-colors"
+                                        to={`/tickets-details/${ticket._id}`}
+                                        className="btn btn-sm  btn-neutral group-hover:bg-primary group-hover:border-primary group-hover:text-white transition-colors"
                                         title="See Details"
                                     >
-                                        <LuArrowRight />
+                                       See Details <LuArrowRight />
                                     </Link>
                                 </div>
 

@@ -12,21 +12,19 @@ const Navbar = () => {
 
     const {user, logOut} = useAuth()
 
-    
-    
-    // const user = null; // Use this to see logged-out view
-
     const handleLogout = () => {
         logOut()
         console.log("User logged out");
         // logOut(); 
         navigate('/');
     };
-    // =========================================================
+    
+
 
     const links = [
         { name: "Home", href: "/" },
-        { name: "All Tickets", href: "/all-tickets" },
+        ...(user ? [{ name: "All Tickets", href: "/all-tickets" }] : []),
+        ...(user ? [{ name: "Dashboard", href: "/dashboard" }] : []),
         { name: "About", href: "/about" },
         { name: "Contact", href: "/contact" },
     ]
@@ -135,12 +133,8 @@ const Navbar = () => {
                                 </li>
                                 <div className="divider my-0"></div>
                                 <li>
-                                    <Link to="/profile" className="justify-between">
-                                        Profile
-                                        <span className="badge badge-sm badge-primary">New</span>
-                                    </Link>
-                                    <Link to="/dashboard" className="justify-between">
-                                        Dashboard
+                                    <Link to="/dashboard/user-profile" className="justify-between">
+                                        My Profile
                                     </Link>
                                 </li>
                                 <li>

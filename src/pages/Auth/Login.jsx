@@ -11,7 +11,7 @@ import SocialLogin from './SocialLogin';
 
 const Login = () => {
 
-  const { googleLogin, sinInUser } = useAuth();
+  const { sinInUser } = useAuth();
   const navigate = useNavigate()
 
   const { register, handleSubmit } = useForm();
@@ -30,17 +30,7 @@ const Login = () => {
     })
   };
 
-  const handleGoogleLogin = () => {
-    googleLogin()
-    .then(result => {
-      const user = result.user;
-      console.log(user);
-      navigate('/')
-    })
-    .catch(error => {
-      console.error(error);
-    })
-  }
+ 
 
 
 
@@ -111,7 +101,7 @@ const Login = () => {
           
           <div className="w-full max-w-md mx-auto">
             <div className="text-center mb-8">
-              <h3 className="text-3xl font-bold text-base-content">Sign In</h3>
+              <h3 className="text-3xl font-bold text-base-content">Login</h3>
               <p className="text-sm text-base-content/60 mt-2">Access your bookings and profile</p>
             </div>
 
@@ -122,12 +112,12 @@ const Login = () => {
                 <label className="label pt-0">
                   <span className="label-text font-medium">Email Address</span>
                 </label>
-                <label className="input input-bordered flex items-center gap-2 focus-within:input-primary transition-all">
+                <label className="input input-bordered flex items-center w-full gap-2 focus-within:input-primary transition-all">
                   <LuMail className="text-base-content/40" />
                   <input 
                     type="email" 
                     name="email"
-                    className="grow" 
+                    className="grow " 
                     placeholder="john@example.com" 
                     {...register("email", { required: "Email is required" })}
                   />
@@ -139,7 +129,7 @@ const Login = () => {
                 <label className="label pt-0">
                   <span className="label-text font-medium">Password</span>
                 </label>
-                <label className="input input-bordered flex items-center gap-2 focus-within:input-primary transition-all">
+                <label className="input input-bordered flex items-center w-full gap-2 focus-within:input-primary transition-all">
                   <LuLock className="text-base-content/40" />
                   <input 
                     type={showPassword ? "text" : "password"} 
@@ -169,7 +159,7 @@ const Login = () => {
 
               {/* Login Button */}
               <button className="btn btn-primary w-full text-lg shadow-lg hover:shadow-primary/50 transition-all duration-300 mt-4 group">
-                Sign In
+                Login
                 <LuArrowRight className="group-hover:translate-x-1 transition-transform" />
               </button>
             </form>

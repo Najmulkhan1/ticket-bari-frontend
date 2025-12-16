@@ -39,7 +39,7 @@ const SocialLogin = () => {
 
     return (
         <div className='text-center pb-8'>
-            <p className='mb-2'>OR</p>
+           
             <div className="w-full flex items-center justify-center">
                 <button onClick={handleGoogleSignIn} className="btn btn-outline w-full hover:bg-base-200 text-base-content/80">
                     <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-5 h-5 mr-1" alt="Google" />
