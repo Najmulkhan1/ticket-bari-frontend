@@ -23,6 +23,7 @@ import ManageTickets from "../pages/Dashboard/AdminDashboard/ManageTickets";
 import ManageUsers from "../pages/Dashboard/AdminDashboard/ManageUsers";
 import AdvertiseTickets from "../pages/Dashboard/AdminDashboard/AdvertiseTickets";
 import VendorRoute from "./VendorRoute";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -69,7 +70,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: DashboardHome,
+        Component: UserProfile,
       },
       {
         path: "user-profile",
@@ -117,15 +118,15 @@ export const router = createBrowserRouter([
       // Admin Dashboard
       {
         path: 'manage-tickets',
-        element: <ManageTickets></ManageTickets>
+        element: <AdminRoute> <ManageTickets></ManageTickets></AdminRoute>
       },
       {
         path: 'manage-users',
-        element: <ManageUsers></ManageUsers>
+        element: <AdminRoute> <ManageUsers></ManageUsers></AdminRoute>
       },
       {
         path: 'advertise-tickets',
-        element: <AdvertiseTickets></AdvertiseTickets>
+        element: <AdminRoute> <AdvertiseTickets></AdvertiseTickets></AdminRoute>
       }
     ],
   },

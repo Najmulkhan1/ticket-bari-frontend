@@ -95,28 +95,32 @@ const DashboardLayout = () => {
               </li>
 
               {/* user */}
-              <li>
-                <NavLink
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="My Bookings"
-                  to={"/dashboard/my-bookings"}
-                >
-                  <FaTicketSimple />
+              {role === 'user' && <>
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="My Bookings"
+                    to={"/dashboard/my-bookings"}
+                  >
+                    <FaTicketSimple />
 
-                  <span className="is-drawer-close:hidden">My Bookings</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Transaction History"
-                  to={"/dashboard/transaction-history"}
-                >
-                  <LuReplace />
+                    <span className="is-drawer-close:hidden">My Bookings</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Transaction History"
+                    to={"/dashboard/transaction-history"}
+                  >
+                    <LuReplace />
 
-                  <span className="is-drawer-close:hidden">Transaction History</span>
-                </NavLink>
-              </li>
+                    <span className="is-drawer-close:hidden">Transaction History</span>
+                  </NavLink>
+                </li>
+
+
+              </>}
 
               {/* vendor */}
 
@@ -181,47 +185,51 @@ const DashboardLayout = () => {
 
               {/* admin */}
 
-              <li>
-                <NavLink
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Manage Tickets"
-                  to={"/dashboard/manage-tickets"}
-                >
-                  <MdAirplaneTicket />
+              {role === 'admin' && <>
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Manage Tickets"
+                    to={"/dashboard/manage-tickets"}
+                  >
+                    <MdAirplaneTicket />
 
-                  <span className="is-drawer-close:hidden">
-                    Manage Tickets
-                  </span>
-                </NavLink>
-              </li>
+                    <span className="is-drawer-close:hidden">
+                      Manage Tickets
+                    </span>
+                  </NavLink>
+                </li>
 
-              <li>
-                <NavLink
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Manage Users"
-                  to={"/dashboard/manage-users"}
-                >
-                  <LuUsers />
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Manage Users"
+                    to={"/dashboard/manage-users"}
+                  >
+                    <LuUsers />
 
-                  <span className="is-drawer-close:hidden">
-                    Manage Users
-                  </span>
-                </NavLink>
-              </li>
+                    <span className="is-drawer-close:hidden">
+                      Manage Users
+                    </span>
+                  </NavLink>
+                </li>
 
-              <li>
-                <NavLink
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip=" Advertise Tickets"
-                  to={"/dashboard/advertise-tickets"}
-                >
-                  <LuMegaphone />
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip=" Advertise Tickets"
+                    to={"/dashboard/advertise-tickets"}
+                  >
+                    <LuMegaphone />
 
-                  <span className="is-drawer-close:hidden">
-                    Advertise Tickets
-                  </span>
-                </NavLink>
-              </li>
+                    <span className="is-drawer-close:hidden">
+                      Advertise Tickets
+                    </span>
+                  </NavLink>
+                </li>
+
+              </>}
+
 
               {/* List item */}
               <li>

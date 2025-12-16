@@ -6,59 +6,21 @@ import {
 } from "react-icons/lu";
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import { useQuery } from '@tanstack/react-query';
 
 const AdvertiseTickets = () => {
     const axiosSecure = useAxiosSecure();
-    const [tickets, setTickets] = useState([]);
-    const [loading, setLoading] = useState(true);
+    
+    const [loading, setLoading] = useState(false);
 
     // --- FETCH DATA ---
-    useEffect(() => {
-        // MOCK DATA (Replace with: axiosSecure.get('/tickets/approved'))
-        const mockData = [
-            {
-                _id: 't1',
-                title: 'Dhaka to Cox\'s Bazar Luxury',
-                vendorName: 'GreenLine',
-                price: 1500,
-                date: '2025-12-31',
-                image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=2069',
-                isAdvertised: true // Currently advertised
-            },
-            {
-                _id: 't2',
-                title: 'Sylhet Express Train',
-                vendorName: 'Railway Bd',
-                price: 800,
-                date: '2025-12-28',
-                image: 'https://images.unsplash.com/photo-1474487548417-781cb71495f3?q=80&w=2184',
-                isAdvertised: true
-            },
-            {
-                _id: 't3',
-                title: 'Dhaka to Saidpur Air',
-                vendorName: 'US Bangla',
-                price: 4500,
-                date: '2025-12-30',
-                image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2074',
-                isAdvertised: false
-            },
-            {
-                _id: 't4',
-                title: 'Barisal Launch VIP',
-                vendorName: 'Surovi',
-                price: 2000,
-                date: '2025-12-25',
-                image: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?q=80&w=2071',
-                isAdvertised: false
-            }
-        ];
-
-        setTimeout(() => {
-            setTickets(mockData);
-            setLoading(false);
-        }, 800);
-    }, []);
+    const { data: tickets = [], isLoading, refetch } = useQuery({
+        queryKey: ['tickets'],
+        queryFn: async () => {
+            const res = await axiosSecure.get('/all-tickets');
+            return res.data;
+        }
+    })
 
     // Count currently advertised tickets
     const advertisedCount = tickets.filter(t => t.isAdvertised).length;
@@ -79,17 +41,10 @@ const AdvertiseTickets = () => {
         }
 
         try {
-            // 2. Optimistic Update (Update UI instantly)
-            const updatedTickets = tickets.map(t => 
-                t._id === ticket._id ? { ...t, isAdvertised: !t.isAdvertised } : t
-            );
-            setTickets(updatedTickets);
-
-            // 3. API Call
-            // await axiosSecure.patch(`/tickets/advertise/${ticket._id}`, { 
-            //     isAdvertised: isTurningOn 
-            // });
-
+            await axiosSecure.patch(`/tickets/advertise/${ticket._id}`, { 
+                isAdvertised: isTurningOn 
+            });
+            refetch();
             // Optional: Small toast for feedback
             const Toast = Swal.mixin({
                 toast: true,
