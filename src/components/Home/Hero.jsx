@@ -1,147 +1,165 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router"; 
-import { FaArrowRight, FaArrowLeft, FaTicketAlt, FaCalendarCheck } from "react-icons/fa";
+import React, { useState, useEffect, useCallback } from "react";
+import { Link } from "react-router";
+import { 
+    FaBus, FaTrain, FaPlane, FaArrowRight, 
+    FaArrowLeft, FaMapMarkerAlt, FaSearch, FaChevronRight 
+} from "react-icons/fa";
 
 const Hero = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [isAnimating, setIsAnimating] = useState(false);
 
     const slides = [
         {
             id: 1,
-            image: "https://i.ibb.co/1JfjS7D4/Untitled-design-10.png",
-            subtitle: "Live Entertainment",
-            title: "Book Concerts & Live Shows",
-            description: "Experience the thrill of live music. Secure the best seats for upcoming concerts and events near you.",
-            buttonText: "Get Tickets",
-            link: "/concerts",
+            image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=2000",
+            icon: <FaBus />,
+            category: "Bus Services",
+            title: "Intercity Bus Travel",
+            desc: "Premium coach services with reclining seats and onboard Wi-Fi for your long journeys.",
+            link: "/bus",
         },
         {
             id: 2,
-            image: "https://i.ibb.co/VcWGfCkN/Untitled-design-11.png",
-            subtitle: "Travel & Transit",
-            title: "Your Journey Starts Here",
-            description: "Fast and easy booking for bus, train, and flight tickets. Explore new destinations with zero hassle.",
-            buttonText: "Book Travel",
-            link: "/travel",
+            image: "https://images.unsplash.com/photo-1474487585617-9d4435e2c10c?auto=format&fit=crop&q=80&w=2000",
+            icon: <FaTrain />,
+            category: "Rail Network",
+            title: "Express Rail Booking",
+            desc: "Skip the queues. Book high-speed rail tickets across the country in seconds.",
+            link: "/train",
         },
         {
             id: 3,
-            image: "https://i.ibb.co/Mkbz7Rmm/Untitled-design-12.png",
-            subtitle: "Movies & Cinema",
-            title: "Catch the Latest Blockbusters",
-            description: "Pre-book your movie tickets and skip the line. Enjoy the magic of cinema with family and friends.",
-            buttonText: "See Showtimes",
-            link: "/movies",
+            image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&q=80&w=2000",
+            icon: <FaPlane />,
+            category: "Flight Deals",
+            title: "Dom. & Int'l Flights",
+            desc: "Compare prices from 500+ airlines and find the cheapest way to fly.",
+            link: "/air",
         },
     ];
 
+    const nextSlide = useCallback(() => {
+        setIsAnimating(true);
+        setTimeout(() => {
+            setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+            setIsAnimating(false);
+        }, 500);
+    }, [slides.length]);
+
+    const prevSlide = () => {
+        setIsAnimating(true);
+        setTimeout(() => {
+            setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+            setIsAnimating(false);
+        }, 500);
+    };
+
     useEffect(() => {
-        const interval = setInterval(() => {
-            handleNext();
-        }, 6000); 
+        const interval = setInterval(nextSlide, 7000);
         return () => clearInterval(interval);
-    }, [currentSlide]);
-
-    const handleNext = () => {
-        setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-    };
-
-    const handlePrev = () => {
-        setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-    };
+    }, [nextSlide]);
 
     return (
-        // Height adjusted for mobile (h-[600px]) and larger screens
-        <div className="relative w-full h-[600px] md:h-[700px] lg:h-[800px] overflow-hidden font-sans group bg-black">
+        <section className="relative w-full h-[60vh] md:h-[65vh] lg:h-[70vh] min-h-[500px] overflow-hidden bg-neutral-950 font-sans">
             
-            {/* --- CAROUSEL SLIDES --- */}
-            {slides.map((slide, index) => (
+            {/* Background Images with Zoom Effect */}
+            {slides.map((slide, idx) => (
                 <div
                     key={slide.id}
-                    className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
-                        index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
+                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                        idx === currentSlide ? "opacity-100 z-0" : "opacity-0 z-0"
                     }`}
                 >
-                    {/* 1. Background Image */}
-                    <div 
-                        className="absolute inset-0 bg-cover bg-center transition-transform duration-[6000ms] ease-linear transform scale-100 hover:scale-105"
-                        style={{ backgroundImage: `url(${slide.image})` }}
-                    ></div>
-
-                    {/* 2. Dark Overlay - Slightly darker on mobile for better text readability */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent lg:bg-gradient-to-r lg:from-black/90 lg:via-black/50 lg:to-transparent"></div>
-
-                    {/* 3. Text Content */}
-                    <div className="absolute inset-0 flex items-center justify-center lg:justify-start">
-                        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-                            {/* Content Wrapper */}
-                            <div className="max-w-lg lg:max-w-2xl w-full space-y-4 sm:space-y-6 text-center lg:text-left mx-auto lg:mx-0">
-                                
-                                {/* Subtitle Badge */}
-                                <div className={`inline-flex items-center justify-center lg:justify-start gap-2 px-3 py-1.5 rounded border border-white/30 bg-white/10 backdrop-blur-md text-white text-xs sm:text-sm tracking-widest uppercase font-semibold transform transition-all duration-700 ${index === currentSlide ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}>
-                                    <FaCalendarCheck className="text-yellow-400" />
-                                    {slide.subtitle}
-                                </div>
-
-                                {/* Main Title - Responsive Text Sizes */}
-                                <h1 
-                                    className={`text-3xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight sm:leading-tight transform transition-all duration-700 delay-100 ${index === currentSlide ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
-                                >
-                                    {slide.title}
-                                </h1>
-
-                                {/* Description */}
-                                <p 
-                                    className={`text-sm sm:text-lg text-gray-200 leading-relaxed transform transition-all duration-700 delay-200 ${index === currentSlide ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
-                                >
-                                    {slide.description}
-                                </p>
-
-                                {/* Button - Full width on mobile, fit on desktop */}
-                                <div className={`pt-4 flex justify-center lg:justify-start transform transition-all duration-700 delay-300 ${index === currentSlide ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}>
-                                    <Link 
-                                        to={slide.link}
-                                        className="btn bg-red-600 hover:bg-red-700 border-none text-white w-full sm:w-auto px-8 h-12 sm:h-14 rounded-lg text-base sm:text-lg font-medium flex items-center justify-center gap-3 transition-all hover:gap-5 shadow-lg shadow-red-600/20"
-                                    >
-                                        <FaTicketAlt />
-                                        {slide.buttonText}
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <img 
+                        src={slide.image} 
+                        className={`w-full h-full object-cover transition-transform duration-[7000ms] ease-linear ${idx === currentSlide ? "scale-110" : "scale-100"}`}
+                        alt={slide.title}
+                    />
+                    {/* Multi-layered Responsive Overlay */}
+                    <div className="absolute inset-0 bg-black/40 lg:bg-gradient-to-r lg:from-black/90 lg:via-black/30 lg:to-transparent" />
                 </div>
             ))}
 
-            {/* --- NAVIGATION ARROWS (Hidden on very small screens, visible on sm+) --- */}
-            <div className="absolute bottom-6 right-6 sm:bottom-10 sm:right-10 z-20 flex gap-3 sm:gap-4">
-                <button 
-                    onClick={handlePrev} 
-                    className="w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center rounded-full border border-white/20 text-white hover:bg-white hover:text-black transition-all bg-black/30 backdrop-blur-sm active:scale-95"
-                >
-                    <FaArrowLeft className="text-sm sm:text-xl" />
-                </button>
-                <button 
-                    onClick={handleNext} 
-                    className="w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center rounded-full border border-white/20 text-white hover:bg-white hover:text-black transition-all bg-black/30 backdrop-blur-sm active:scale-95"
-                >
-                    <FaArrowRight className="text-sm sm:text-xl" />
-                </button>
+            <div className="relative z-10 h-full max-w-7xl mx-auto flex flex-col justify-center">
+                
+                <div className={`max-w-3xl transition-all duration-700 ${isAnimating ? "opacity-0 translate-y-10" : "opacity-100 translate-y-0"}`}>
+                    
+                    {/* Mode Tag */}
+                    <div className="flex items-center gap-3 mb-4 md:mb-6">
+                        <span className="p-3 bg-white/10 backdrop-blur-md rounded-xl text-white text-lg border border-white/20">
+                            {slides[currentSlide].icon}
+                        </span>
+                        <span className="text-white font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs">
+                            {slides[currentSlide].category}
+                        </span>
+                    </div>
+
+                    {/* Responsive Heading */}
+                    <h1 className="text-3xl sm:text-5xl lg:text-7xl font-black text-white leading-[1.1] mb-4">
+                        {slides[currentSlide].title}
+                    </h1>
+
+                    {/* Description - Clamped for Mobile */}
+                    <p className="text-gray-300 text-sm md:text-lg lg:text-xl mb-8 max-w-xl leading-relaxed line-clamp-2 md:line-clamp-none">
+                        {slides[currentSlide].desc}
+                    </p>
+
+                    {/* Booking Dock UI */}
+                    <div className="flex flex-col sm:flex-row items-center gap-3 p-2 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 w-full sm:w-fit">
+                        <Link 
+                            to={slides[currentSlide].link}
+                            className="w-full sm:w-auto bg-white text-black px-8 py-4 rounded-xl font-bold flex items-center justify-center gap-3 hover:bg-neutral-200 transition-all active:scale-95 shadow-xl"
+                        >
+                            <FaSearch className="text-xs" />
+                            <span>Book {slides[currentSlide].category.split(' ')[0]}</span>
+                        </Link>
+                        <button className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-4 text-white hover:bg-white/10 rounded-xl transition-all font-semibold text-sm group">
+                            <FaMapMarkerAlt className="text-white/60 group-hover:text-white" /> Routes
+                        </button>
+                    </div>
+                </div>
+
+                {/* Bottom Navigation Control - Responsive Placement */}
+                <div className="absolute bottom-6 left-6 right-6 md:bottom-10 md:left-12 md:right-12 flex flex-col md:flex-row items-center justify-between gap-6">
+                    
+                    {/* Step Indicators */}
+                    <div className="flex gap-4 items-center order-2 md:order-1">
+                        {slides.map((_, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => setCurrentSlide(idx)}
+                                className="group flex flex-col items-center gap-2"
+                            >
+                                <div className={`h-1 transition-all duration-500 rounded-full ${currentSlide === idx ? "w-12 bg-white" : "w-6 bg-white/20 hover:bg-white/40"}`} />
+                                <span className={`text-[10px] font-bold text-white transition-opacity ${currentSlide === idx ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
+                                    0{idx + 1}
+                                </span>
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Arrow Group */}
+                    <div className="flex gap-2 order-1 md:order-2">
+                        <button 
+                            onClick={prevSlide}
+                            className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white hover:text-black transition-all"
+                        >
+                            <FaArrowLeft size={14} />
+                        </button>
+                        <button 
+                            onClick={nextSlide}
+                            className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white hover:text-black transition-all"
+                        >
+                            <FaArrowRight size={14} />
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            {/* --- PROGRESS INDICATORS --- */}
-            <div className="absolute bottom-6 left-6 sm:bottom-10 sm:left-12 z-20 flex gap-2 sm:gap-3">
-                {slides.map((_, idx) => (
-                    <button
-                        key={idx}
-                        onClick={() => setCurrentSlide(idx)}
-                        className={`h-1.5 rounded-full transition-all duration-500 ${
-                            currentSlide === idx ? "w-8 sm:w-12 bg-red-600" : "w-4 sm:w-6 bg-white/30 hover:bg-white/80"
-                        }`}
-                    />
-                ))}
-            </div>
-        </div>
+            {/* Visual Continuity Gradient */}
+            <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black to-transparent z-10" />
+        </section>
     );
 };
 

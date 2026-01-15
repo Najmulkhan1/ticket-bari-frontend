@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { 
-  LuPlane, LuMail, LuLock, 
-  LuArrowRight, LuEye, LuEyeOff, 
-  LuQrCode 
+import {
+  LuPlane, LuMail, LuLock,
+  LuArrowRight, LuEye, LuEyeOff,
+  LuQrCode
 } from "react-icons/lu";
 import { useForm } from "react-hook-form";
 import useAuth from '../../hooks/useAuth';
@@ -14,23 +14,23 @@ const Login = () => {
   const { sinInUser } = useAuth();
   const navigate = useNavigate()
 
-  const { register, handleSubmit } = useForm();
-  
+  const { register, handleSubmit, setValue } = useForm();
+
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = (data) => {
     sinInUser(data.email, data.password)
-    .then(result => {
-      const user = result.user;
-      console.log(user);
-      navigate('/')
-    })
-    .catch(error => {
-      console.error(error);
-    })
+      .then(result => {
+        const user = result.user;
+        console.log(user);
+        navigate('/')
+      })
+      .catch(error => {
+        console.error(error);
+      })
   };
 
- 
+
 
 
 
@@ -41,13 +41,13 @@ const Login = () => {
 
       {/* Main Container - Ticket Shape */}
       <div className="relative w-full max-w-5xl bg-base-100 shadow-2xl rounded-3xl overflow-hidden grid lg:grid-cols-5 z-10 min-h-[600px]">
-        
+
         {/* Left Side: "Boarding Pass" Visual (Hidden on Mobile) */}
         <div className="hidden lg:flex lg:col-span-2 bg-neutral text-neutral-content flex-col justify-between p-10 relative overflow-hidden">
           {/* Decorative Background Elements */}
           <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-             <div className="w-64 h-64 bg-primary rounded-full blur-3xl absolute -top-10 -left-10"></div>
-             <div className="w-64 h-64 bg-secondary rounded-full blur-3xl absolute bottom-0 right-0"></div>
+            <div className="w-64 h-64 bg-primary rounded-full blur-3xl absolute -top-10 -left-10"></div>
+            <div className="w-64 h-64 bg-secondary rounded-full blur-3xl absolute bottom-0 right-0"></div>
           </div>
 
           <div className="relative z-10">
@@ -57,9 +57,9 @@ const Login = () => {
               </div>
               <h1 className="text-2xl font-bold tracking-tighter">TicketBari</h1>
             </div>
-            
+
             <h2 className="text-4xl font-extrabold leading-tight mb-4">
-              Welcome <br/> <span className="text-primary">Back.</span>
+              Welcome <br /> <span className="text-primary">Back.</span>
             </h2>
             <p className="opacity-70 text-sm">
               Your next destination is waiting. Please check in to continue.
@@ -69,36 +69,36 @@ const Login = () => {
           {/* Abstract "Gate Info" Graphic */}
           <div className="relative z-10 mt-auto bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl flex flex-col gap-4">
             <div className="flex justify-between items-center">
-                <div>
-                    <span className="text-[10px] font-mono opacity-60 block">GATE</span>
-                    <span className="text-xl font-bold">04A</span>
-                </div>
-                <div>
-                    <span className="text-[10px] font-mono opacity-60 block text-right">STATUS</span>
-                    <span className="badge badge-success badge-sm text-xs">On Time</span>
-                </div>
+              <div>
+                <span className="text-[10px] font-mono opacity-60 block">GATE</span>
+                <span className="text-xl font-bold">04A</span>
+              </div>
+              <div>
+                <span className="text-[10px] font-mono opacity-60 block text-right">STATUS</span>
+                <span className="badge badge-success badge-sm text-xs">On Time</span>
+              </div>
             </div>
             <div className="border-t border-dashed border-white/20"></div>
             <div className="flex items-center gap-3">
-                <LuQrCode className="text-4xl opacity-80" />
-                <div className="text-[10px] opacity-60 font-mono leading-tight">
-                    CLASS: BUSINESS<br/>
-                    ID: 8859-BLK
-                </div>
+              <LuQrCode className="text-4xl opacity-80" />
+              <div className="text-[10px] opacity-60 font-mono leading-tight">
+                CLASS: BUSINESS<br />
+                ID: 8859-BLK
+              </div>
             </div>
           </div>
         </div>
 
         {/* Center Divider: Visual Perforation */}
         <div className="hidden lg:flex flex-col justify-between absolute left-[40%] top-0 bottom-0 z-20 pointer-events-none h-full w-4 -ml-2">
-           <div className="w-6 h-6 rounded-full bg-primary/90 -mt-3"></div>
-           <div className="h-full border-r-2 border-dashed border-gray-300/50"></div>
-           <div className="w-6 h-6 rounded-full bg-secondary/80 -mb-3"></div>
+          <div className="w-6 h-6 rounded-full bg-primary/90 -mt-3"></div>
+          <div className="h-full border-r-2 border-dashed border-gray-300/50"></div>
+          <div className="w-6 h-6 rounded-full bg-secondary/80 -mb-3"></div>
         </div>
 
         {/* Right Side: Login Form */}
         <div className="col-span-1 lg:col-span-3 bg-base-100 p-6 md:p-12 flex flex-col justify-center w-full">
-          
+
           <div className="w-full max-w-md mx-auto">
             <div className="text-center mb-8">
               <h3 className="text-3xl font-bold text-base-content">Login</h3>
@@ -106,7 +106,7 @@ const Login = () => {
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-              
+
               {/* Email */}
               <div className="form-control">
                 <label className="label pt-0">
@@ -114,11 +114,11 @@ const Login = () => {
                 </label>
                 <label className="input input-bordered flex items-center w-full gap-2 focus-within:input-primary transition-all">
                   <LuMail className="text-base-content/40" />
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
                     name="email"
-                    className="grow " 
-                    placeholder="john@example.com" 
+                    className="grow "
+                    placeholder="john@example.com"
                     {...register("email", { required: "Email is required" })}
                   />
                 </label>
@@ -131,16 +131,16 @@ const Login = () => {
                 </label>
                 <label className="input input-bordered flex items-center w-full gap-2 focus-within:input-primary transition-all">
                   <LuLock className="text-base-content/40" />
-                  <input 
-                    type={showPassword ? "text" : "password"} 
+                  <input
+                    type={showPassword ? "text" : "password"}
                     name="password"
-                    className="grow" 
-                    placeholder="••••••••" 
+                    className="grow"
+                    placeholder="••••••••"
                     {...register("password", { required: "Password is required" })}
                   />
-                  <button 
-                    type="button" 
-                    onClick={() => setShowPassword(!showPassword)} 
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
                     className="text-base-content/40 hover:text-primary transition-colors focus:outline-none"
                   >
                     {showPassword ? <LuEyeOff /> : <LuEye />}
@@ -151,16 +151,27 @@ const Login = () => {
               {/* Remember & Forgot */}
               <div className="flex items-center justify-between text-sm">
                 <label className="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" className="checkbox checkbox-xs checkbox-primary" />
-                    <span className="text-base-content/70">Remember me</span>
+                  <input type="checkbox" className="checkbox checkbox-xs checkbox-primary" />
+                  <span className="text-base-content/70">Remember me</span>
                 </label>
                 <a href="#" className="link link-hover link-primary text-xs font-semibold">Forgot Password?</a>
               </div>
 
               {/* Login Button */}
-              <button className="btn btn-primary w-full text-lg shadow-lg hover:shadow-primary/50 transition-all duration-300 mt-4 group">
+              <button type='submit' className="btn btn-primary w-full text-lg shadow-lg hover:shadow-primary/50 transition-all duration-300 mt-4 group">
                 Login
                 <LuArrowRight className="group-hover:translate-x-1 transition-transform" />
+              </button>
+
+              <button
+                type='button'
+                onClick={() => {
+                  setValue('email', 'demo@example.com');
+                  setValue('password', '123456');
+                }}
+                className="btn btn-outline btn-secondary w-full text-lg mt-2 group"
+              >
+                Demo Login
               </button>
             </form>
 
